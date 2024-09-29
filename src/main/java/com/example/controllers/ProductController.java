@@ -3,11 +3,10 @@ package com.example.controllers;
 
 import com.example.entities.Product;
 import com.example.services.ProductService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 public class ProductController {
 
@@ -18,7 +17,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProduct(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<Product>> getAllProduct(@RequestParam(defaultValue = "0") int page,
                                                        @RequestParam(defaultValue = "10") int size) {
         PageRequest pagable = PageRequest.of(page, size);
         return ResponseEntity.ok(productService.get(pagable));
@@ -40,8 +39,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Product> deleteProduct(@PathVariable long id) {
-        return ResponseEntity.ok(productService.delete(id));
+    public ResponseEntity<String> deleteProduct(@PathVariable long id) {
+        productService.delete(id);
+        return ResponseEntity.ok("deleted successfully!");
     }
 
 }

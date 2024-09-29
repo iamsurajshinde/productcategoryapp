@@ -1,34 +1,42 @@
 package com.example.services;
 
 import com.example.entities.Categary;
+import com.example.repositories.CategoryRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class CategoryServiceImpl implements CategoryService{
+public class CategoryServiceImpl implements CategoryService {
+
+    private final CategoryRepo categoryRepo;
+
+    public CategoryServiceImpl(CategoryRepo categoryRepo) {
+        this.categoryRepo = categoryRepo;
+    }
+
     @Override
-    public List<Categary> get() {
-        return null;
+    public Page<Categary> get(Pageable pageable) {
+        return categoryRepo.findAll(pageable);
     }
 
     @Override
     public Categary get(long id) {
-        return null;
+        return categoryRepo.findById(id).orElse(null);
     }
 
     @Override
     public Categary save(Categary categary) {
-        return null;
+        return categoryRepo.save(categary);
     }
 
     @Override
     public Categary update(long id, Categary categary) {
-        return null;
+        return categoryRepo.saveAndFlush(categary);
     }
 
     @Override
-    public Categary delete(long id) {
-        return null;
+    public void delete(long id) {
+        categoryRepo.deleteById(id);
     }
 }

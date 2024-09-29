@@ -3,11 +3,10 @@ package com.example.controllers;
 
 import com.example.entities.Categary;
 import com.example.services.CategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/category")
@@ -16,12 +15,15 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     public CategoryController(CategoryService categoryService) {
+
         this.categoryService = categoryService;
     }
 
     @GetMapping
-    public ResponseEntity<List<Categary>> getAllCategory() {
-        return ResponseEntity.ok(categoryService.get());
+    public ResponseEntity<Page<Categary>> getAllCategory(@RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(defaultValue = "10") int size) {
+        PageRequest pagable = PageRequest.of(page, size);
+        return ResponseEntity.ok(categoryService.get(pagable));
     }
 
     @GetMapping("/{id}")
@@ -40,8 +42,9 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Categary> deleteCategory(@PathVariable long id) {
-        return ResponseEntity.ok(categoryService.delete(id));
+    public ResponseEntity<String> deleteCategory(@PathVariable long id) {
+        categoryService.delete(id);
+        return ResponseEntity.ok("deleted successfully!");
     }
 
 }

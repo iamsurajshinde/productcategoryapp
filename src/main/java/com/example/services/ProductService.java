@@ -1,16 +1,20 @@
 package com.example.services;
 
-import com.example.entities.Categary;
 import com.example.entities.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 
 public interface ProductService {
 
-    List<Product> get();
+    Page<Product> get(Pageable pageable);
+
     Product get(long id);
+
     Product save(Product product);
+
     Product update(long id, Product product);
-    Product delete(long id);
+
+    void delete(long id);
 
 }
