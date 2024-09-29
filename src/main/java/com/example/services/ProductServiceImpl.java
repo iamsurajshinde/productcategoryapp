@@ -6,6 +6,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -34,7 +36,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product update(long id, Product product) {
-        return productRepo.saveAndFlush(product);
+        Optional<Product> optionalProduct = productRepo.findById(id);
+        if(optionalProduct.isEmpty()) return null;
+        Product newProduct = optionalProduct.get().update(product);
+        return productRepo.saveAndFlush(newProduct);
     }
 
     @Override

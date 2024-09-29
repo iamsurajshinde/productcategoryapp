@@ -1,10 +1,12 @@
 package com.example.services;
 
-import com.example.entities.Categary;
+import com.example.entities.Category;
 import com.example.repositories.CategoryRepo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -16,23 +18,26 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Page<Categary> get(Pageable pageable) {
+    public Page<Category> get(Pageable pageable) {
         return categoryRepo.findAll(pageable);
     }
 
     @Override
-    public Categary get(long id) {
+    public Category get(long id) {
         return categoryRepo.findById(id).orElse(null);
     }
 
     @Override
-    public Categary save(Categary categary) {
-        return categoryRepo.save(categary);
+    public Category save(Category category) {
+        return categoryRepo.save(category);
     }
 
     @Override
-    public Categary update(long id, Categary categary) {
-        return categoryRepo.saveAndFlush(categary);
+    public Category update(long id, Category category) {
+        Optional<Category> optionalCategory = categoryRepo.findById(id);
+        if(optionalCategory.isEmpty()) return null;
+        Category newCategory = optionalCategory.get().update(category);
+        return categoryRepo.saveAndFlush(newCategory);
     }
 
     @Override

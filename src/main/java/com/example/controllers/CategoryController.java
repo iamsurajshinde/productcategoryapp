@@ -1,7 +1,7 @@
 package com.example.controllers;
 
 
-import com.example.entities.Categary;
+import com.example.entities.Category;
 import com.example.services.CategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,25 +20,25 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Categary>> getAllCategory(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<Page<Category>> getAllCategory(@RequestParam(defaultValue = "0") int page,
                                                          @RequestParam(defaultValue = "10") int size) {
         PageRequest pagable = PageRequest.of(page, size);
         return ResponseEntity.ok(categoryService.get(pagable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Categary> getCategory(@PathVariable long id) {
+    public ResponseEntity<Category> getCategory(@PathVariable long id) {
         return ResponseEntity.ok(categoryService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<Categary> saveCategory(@RequestBody Categary categary) {
-        return ResponseEntity.ok(categoryService.save(categary));
+    public ResponseEntity<Category> saveCategory(@RequestBody Category category) {
+        return ResponseEntity.ok(categoryService.save(category));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Categary> updateCategory(@PathVariable long id, @RequestBody Categary categary) {
-        return ResponseEntity.ok(categoryService.update(id, categary));
+    public ResponseEntity<Category> updateCategory(@PathVariable long id, @RequestBody Category category) {
+        return ResponseEntity.ok(categoryService.update(id, category));
     }
 
     @DeleteMapping("/{id}")

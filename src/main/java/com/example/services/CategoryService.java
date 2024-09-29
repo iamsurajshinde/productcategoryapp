@@ -1,17 +1,17 @@
 package com.example.services;
 
-import com.example.entities.Categary;
+import com.example.entities.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
-    Page<Categary> get(Pageable pageable);
+    Page<Category> get(Pageable pageable);
 
-    Categary get(long id);
+    Category get(long id);
 
-    Categary save(Categary categary);
+    Category save(Category category);
 
-    Categary update(long id, Categary categary);
+    Category update(long id, Category category);
 
     void delete(long id);
 

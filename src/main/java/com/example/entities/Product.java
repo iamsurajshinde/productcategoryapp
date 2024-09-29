@@ -1,31 +1,33 @@
 package com.example.entities;
 
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 
 import java.math.BigDecimal;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
+
 @Data
+@Entity
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String name;
-    private String qty;
-    private BigDecimal price;
+    private String name = "";
+    private int qty = -1;
+    private BigDecimal price = BigDecimal.ZERO;
     @ManyToOne
     @JoinColumn(name = "categoryId")
-    private Categary categaryId;
+    private Category categoryId;
+
+    public Product update(Product product) {
+        if (!product.getName().isEmpty())
+            this.name = product.getName();
+        if (product.getQty() > -1)
+            this.qty = product.getQty();
+        if (product.getPrice().compareTo(BigDecimal.ZERO) > 0)
+            this.price = product.getPrice();
+        return this;
+    }
 }
 
